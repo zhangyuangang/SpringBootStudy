@@ -1,0 +1,23 @@
+spring:
+  profiles:
+    active: prod
+
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/study
+    username: root
+    password: root
+
+  jpa:
+    hibernate:
+      ddl-auto: update  # 第一次建表用create  后面用update
+    show-sql: true
+
+my:
+  name: forezp
+  age: 12
+  number:  ${random.int}
+  uuid : ${random.uuid}
+  max: ${random.int(10)}
+  value: ${random.value}
+  greeting: hi,i'm  ${my.name}
