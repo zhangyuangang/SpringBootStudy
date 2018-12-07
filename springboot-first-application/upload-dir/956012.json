@@ -1,0 +1,38 @@
+{
+    "BUSICODE": "201811293",
+    "BILL_ID": "0",
+    "USER_LIST": {
+        "USER_INFO": [{
+            "BILL_ID": "0",
+            "BUSICODE": "201811293",
+            "PARAM_LIST": {
+                "PARAM_INFO": [{
+                    "PARAM_CODE": "LAJ",
+                    "PARAM_VALUE": "706078046834"
+                }, {
+                    "PARAM_CODE": "LAJ_KEY",
+                    "PARAM_VALUE": "eAhfjnJh1Vlz"
+                }, {
+                    "PARAM_CODE": "FAMILY_USER_ID",
+                    "PARAM_VALUE": 0
+                }, {
+                    "PARAM_CODE": "OPER_TYPE",
+                    "PARAM_VALUE": "0"
+                }, {
+                    "PARAM_CODE": "FAMILY_BILL_ID",
+                    "PARAM_VALUE": "0"
+                }, {
+                    "PARAM_CODE": "MEM_LIST",
+                    "PARAM_VALUE": [{
+                        "BILL_ID": "123"
+                    }, {
+                        "BILL_ID": "123"
+                    }]
+                }, {
+                    "PARAM_CODE": "OFFER_ID",
+                    "PARAM_VALUE": 0
+                }]
+            }
+        }]
+    }
+}

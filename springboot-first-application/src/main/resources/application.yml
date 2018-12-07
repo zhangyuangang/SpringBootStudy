@@ -13,6 +13,10 @@ spring:
       ddl-auto: update  # 第一次建表用create  后面用update
     show-sql: true
 
+  http:
+    multipart:
+      max-file-size: 128KB
+      max-request-size: 128KB
 #  data:
 #    mongodb.uri: mongodb://localhost:27017/springboot-db
   #  如果mongodb有密码，则用下面的配置
@@ -37,7 +41,7 @@ mybatis:
 
 
 my:
-  name: forezp
+  name: phil
   age:  12
   number: ${random.int}
   uuid: ${random.uuid}

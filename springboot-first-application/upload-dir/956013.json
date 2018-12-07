@@ -1,0 +1,56 @@
+{
+    "BUSICODE": "201811294",
+    "BILL_ID": "0",
+    "USER_LIST": {
+        "USER_INFO": [{
+            "BILL_ID": "0",
+            "BUSICODE": "201811294",
+            "PARAM_LIST": {
+                "PARAM_INFO": [{
+                    "PARAM_CODE": "LAJ",
+                    "PARAM_VALUE": "217260803591"
+                }, {
+                    "PARAM_CODE": "LAJ_KEY",
+                    "PARAM_VALUE": "g2bzCNtM2Fsi"
+                }, {
+                    "PARAM_CODE": "REGION_ID",
+                    "PARAM_VALUE": "0"
+                }, {
+                    "PARAM_CODE": "USER_ID",
+                    "PARAM_VALUE": 0
+                }, {
+                    "PARAM_CODE": "IS_MAIN",
+                    "PARAM_VALUE": 0
+                }, {
+                    "PARAM_CODE": "MGR_MEMBER_BILL_ID",
+                    "PARAM_VALUE": "571"
+                }, {
+                    "PARAM_CODE": "IS_MGR_ROLE_BY_ROLE_ID",
+                    "PARAM_VALUE": true
+                }, {
+                    "PARAM_CODE": "FAMILY_ACCT_ID",
+                    "PARAM_VALUE": 0
+                }, {
+                    "PARAM_CODE": "BUSIOPER_ID",
+                    "PARAM_VALUE": "0"
+                }, {
+                    "PARAM_CODE": "OPER_TYPE",
+                    "PARAM_VALUE": "0"
+                }, {
+                    "PARAM_CODE": "FAMILY_BILL_ID",
+                    "PARAM_VALUE": "0"
+                }, {
+                    "PARAM_CODE": "MEM_LIST",
+                    "PARAM_VALUE": [{
+                        "BILL_ID": "123"
+                    }, {
+                        "BILL_ID": "123"
+                    }]
+                }, {
+                    "PARAM_CODE": "OFFER_ID",
+                    "PARAM_VALUE": 0
+                }]
+            }
+        }]
+    }
+}
