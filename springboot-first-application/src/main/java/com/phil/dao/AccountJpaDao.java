@@ -1,7 +1,8 @@
-package com.phil.springbootfirstapplication.dao;
+package com.phil.dao;
 
-import com.phil.springbootfirstapplication.pojo.Account;
+import com.phil.entity.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AccountJpaDao extends JpaRepository<Account, Integer> {
+
 }

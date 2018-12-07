@@ -1,7 +1,7 @@
-package com.phil.springbootfirstapplication.service;
+package com.phil.service;
 
-import com.phil.springbootfirstapplication.dao.IAccountDAO;
-import com.phil.springbootfirstapplication.pojo.Account;
+import com.phil.dao.IAccountDAO;
+import com.phil.entity.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

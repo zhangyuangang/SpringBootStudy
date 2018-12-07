@@ -1,4 +1,4 @@
-package com.phil.springbootfirstapplication.control;
+package com.phil.control;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

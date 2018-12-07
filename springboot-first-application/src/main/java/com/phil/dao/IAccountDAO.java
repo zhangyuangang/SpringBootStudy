@@ -1,12 +1,10 @@
-package com.phil.springbootfirstapplication.service;
+package com.phil.dao;
 
-import com.phil.springbootfirstapplication.pojo.Account;
+import com.phil.entity.Account;
 
 import java.util.List;
 
-public interface IAccountService {
-
-
+public interface IAccountDAO {
     int add(Account account);
 
     int update(Account account);
@@ -16,5 +14,4 @@ public interface IAccountService {
     Account findAccountById(int id);
 
     List<Account> findAccountList();
-
 }

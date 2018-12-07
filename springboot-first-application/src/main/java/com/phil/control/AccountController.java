@@ -1,7 +1,7 @@
-package com.phil.springbootfirstapplication.control;
+package com.phil.control;
 
-import com.phil.springbootfirstapplication.pojo.Account;
-import com.phil.springbootfirstapplication.service.IAccountService;
+import com.phil.entity.Account;
+import com.phil.service.IAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +11,7 @@ import java.util.List;
 @RequestMapping("/account")
 public class AccountController {
 
+    // jdbcTemplate
     @Autowired
     IAccountService accountService;
 

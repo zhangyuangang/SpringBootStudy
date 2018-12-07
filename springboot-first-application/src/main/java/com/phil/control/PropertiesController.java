@@ -1,7 +1,7 @@
-package com.phil.springbootfirstapplication.control;
+package com.phil.control;
 
-import com.phil.springbootfirstapplication.bean.ConfigBean;
-import com.phil.springbootfirstapplication.bean.User;
+import com.phil.bean.ConfigBean;
+import com.phil.bean.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

@@ -1,6 +1,6 @@
-package com.phil.springbootfirstapplication.dao;
+package com.phil.dao;
 
-import com.phil.springbootfirstapplication.pojo.Account;
+import com.phil.entity.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;

@@ -1,10 +1,10 @@
 spring:
   profiles:
-    active: prod
+    active: dev
 
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/study
+    url: jdbc:mysql://localhost:3306/study?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
     username: root
     password: root
 
@@ -13,11 +13,34 @@ spring:
       ddl-auto: update  # 第一次建表用create  后面用update
     show-sql: true
 
+#  data:
+#    mongodb.uri: mongodb://localhost:27017/springboot-db
+  #  如果mongodb有密码，则用下面的配置
+  #  mongodb.uri: mongodb://name:password@localhost:27017/dbname
+
+#  redis:
+#    host: localhost
+#    port: 6379
+#    password: 123
+#    database: 1
+#    pool:
+#      max-active: 8
+#      max-wait: -1
+#      max-idle: 500
+#      min-idle: 0
+#    timeout: 0
+
+
+mybatis:
+  mapper-locations: classpath*:mybatis/*Mapper.xml
+  type-aliases-package: com.phil.entity
+
+
 my:
   name: forezp
-  age: 12
-  number:  ${random.int}
-  uuid : ${random.uuid}
-  max: ${random.int(10)}
-  value: ${random.value}
+  age:  12
+  number: ${random.int}
+  uuid: ${random.uuid}
+  max:  ${random.int(10)}
+  value:  ${random.value}
   greeting: hi,i'm  ${my.name}

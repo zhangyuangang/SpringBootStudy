@@ -1,16 +1,14 @@
-package com.phil.springbootfirstapplication.control;
+package com.phil.control;
 
-import com.phil.springbootfirstapplication.dao.AccountJpaDao;
-import com.phil.springbootfirstapplication.pojo.Account;
+import com.phil.dao.AccountJpaDao;
+import com.phil.entity.Account;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/account")
+@RequestMapping("/jspAccount")
 public class AccountJpaController {
 
     @Autowired

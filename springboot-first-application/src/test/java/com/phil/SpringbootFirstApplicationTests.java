@@ -1,4 +1,4 @@
-package com.phil.springbootfirstapplication;
+package com.phil;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

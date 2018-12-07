@@ -1,4 +1,4 @@
-package com.phil.springbootfirstapplication.pojo;
+package com.phil.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
