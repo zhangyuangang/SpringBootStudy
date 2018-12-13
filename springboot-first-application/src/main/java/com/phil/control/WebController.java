@@ -1,14 +1,12 @@
 package com.phil.control;
 
 import com.phil.bean.Greeting;
+import com.phil.entity.Animal;
 import com.phil.entity.PersonForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -29,13 +27,19 @@ public class WebController extends WebMvcConfigurerAdapter {
     }
 
     @PostMapping("/")
-    public String checkPersonInfo(@Valid PersonForm personForm, BindingResult bindingResult) {
-
+    public String checkPersonInfo(@RequestParam PersonForm personForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "form";
         }
-
         return "redirect:/results";
+    }
+
+    // 从请求体里获取数据，{"dog":{"name":"狗","age":"3","type":"small"},"pig":{"name":"猪","age":"6","color":"white"}}
+    @PostMapping("/test")
+    public String test(@RequestBody Animal animal) {
+        System.out.println(animal.getDog().getAge());
+        System.out.println(animal.getPig().getColor());
+        return "form";
     }
 
     @GetMapping("/greeting")
