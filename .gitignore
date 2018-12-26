@@ -25,6 +25,9 @@ hs_err_pid*
 
 
 # IDEA
+.git/*
+.idea/*
+out/*
 *.iml
 *.idea
 *.gitignore
