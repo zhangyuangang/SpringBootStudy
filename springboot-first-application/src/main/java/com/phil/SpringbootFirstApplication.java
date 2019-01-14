@@ -21,7 +21,6 @@ public class SpringbootFirstApplication {
     private static final Log log = LogFactory.getLog(SpringbootFirstApplication.class);
 
     public static void main(String[] args) {
-        String s = new String();
         SpringApplication.run(SpringbootFirstApplication.class, args);
     }
 
