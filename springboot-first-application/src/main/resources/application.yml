@@ -48,3 +48,7 @@ my:
   max:  ${random.int(10)}
   value:  ${random.value}
   greeting: hi,i'm  ${my.name}
+
+#配置自定义Starter的自动化配置
+hello:
+  msg: zyg

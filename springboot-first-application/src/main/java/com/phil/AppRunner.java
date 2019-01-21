@@ -1,6 +1,8 @@
 package com.phil;
 
 import com.phil.bean.UserInfo;
+import com.phil.configuration.HelloAutoConfiguration;
+import com.phil.configuration.HelloService;
 import com.phil.control.GitHubLookupService;
 import com.phil.service.AccountMybatisService2;
 import org.slf4j.Logger;
@@ -37,6 +39,9 @@ public class AppRunner implements CommandLineRunner {
 
     @Autowired
     private final GitHubLookupService gitHubLookupService;
+
+    @Autowired
+    HelloService helloService;
     
     public AppRunner(GitHubLookupService gitHubLookupService) {
         this.gitHubLookupService = gitHubLookupService;
@@ -68,6 +73,9 @@ public class AppRunner implements CommandLineRunner {
         logger.info("--> " + page4.get());
         logger.info("--> " + page5.get());
         logger.info("--> " + page6.get());
+
+        System.out.println("============实现自动化配置=============");
+        System.out.println(helloService.sayHello());
     }
 
 }
