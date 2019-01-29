@@ -14,20 +14,36 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.1.RELEASE</version>
+        <version>1.5.9.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>1.8</java.version>
+        <java.version>1.7</java.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-starter-data-jpa</artifactId>-->
+        <!--</dependency>-->
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.0.29</version>
         </dependency>
 
         <dependency>
@@ -41,28 +57,56 @@
             <groupId>com.wrpower</groupId>
             <artifactId>FIDBAccessModel</artifactId>
             <version>1.0</version>
-            <systemPath>D:/WORK_SPACE/SpringBoot/pjc_project/jar/FIDBAccessModel.jar</systemPath>
         </dependency>
 
         <dependency>
             <groupId>com.wrpower</groupId>
             <artifactId>FIDBAccessV2For1.6</artifactId>
             <version>1.0</version>
-            <systemPath>D:/WORK_SPACE/SpringBoot/pjc_project/jar/FIDBAccessV2For1.6.jar</systemPath>
         </dependency>
 
         <dependency>
             <groupId>com.wrpower</groupId>
             <artifactId>NDBAccessModel</artifactId>
             <version>1.0</version>
-            <systemPath>D:/WORK_SPACE/SpringBoot/pjc_project/jar/NDBAccessModel.jar</systemPath>
         </dependency>
 
         <dependency>
             <groupId>com.wrpower</groupId>
-            <artifactId>NDBAccessV2For1.6</artifactId>
+            <artifactId>NDBAccessV2For1.6ForFuture</artifactId>
             <version>1.0</version>
-            <systemPath>D:/WORK_SPACE/SpringBoot/pjc_project/jar/NDBAccessV2For1.6.jar</systemPath>
+        </dependency>
+
+        <!--这里是导入的达梦数据库jdbc和hibernate4.0 的jar包-->
+        <dependency>
+            <groupId>com.dm</groupId>
+            <artifactId>Dm7JdbcDriver17</artifactId>
+            <version>1.7.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.dm.dialect</groupId>
+            <artifactId>hibernate4</artifactId>
+            <version>4.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java -->
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+            <version>2.5.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.25</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.0.2</version>
+            <scope>compile</scope>
         </dependency>
 
     </dependencies>

@@ -1,5 +1,8 @@
-package com.wrpower.pjc_project.domain;
+package com.wrpower.pjc_project.entity;
 
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+
+@EntityScan
 public class PjcProject {
     private String author;
     private String name;

@@ -5,93 +5,75 @@ import com.nari.cloud.dbaccess.impl.NRDBAccessImpl;
 import com.nari.cloud.dbaccess.model.*;
 import com.nari.cloud.dbaccess.tool.NRDataAccessException;
 import com.nari.cloud.dbaccess.wrapper.NRDBAccess;
-import com.wrpower.pjc_project.domain.Acline;
+import com.wrpower.pjc_project.domain.Compensator;
 import javafx.util.Pair;
 
 import java.lang.reflect.Field;
 import java.util.*;
 
-public class AclineManage {
+public class CompensatorManage {
 
     private static NRDBAccess m_nrdbAccess = new NRDBAccessImpl();
-    // 这个用来记录 线路类对象的属性，对应调控云中的表和字段名称
-    private Map<String, Pair<String, String>> aclineAttToDkyTableMap = ReadConfigFile.getAttToDkyTableMap("acline");
-    // 线路类对象的属性，对应调控云中该字段类型
-    private Map<String, Integer> aclineAttAndTypeMap = ReadConfigFile.getAttAndTypeMap("acline");
-    private Map<String, String> aclineNameAndIdMap = selectAclineNameAndIdMap();
-
-
+    // 这个用来记录 容抗器类对象的属性，对应调控云中的表和字段名称
+    private Map<String, Pair<String, String>> compensatorAttToDkyTableMap = ReadConfigFile.getAttToDkyTableMap("compensator");
+    // 容抗器类对象的属性，对应调控云中该字段类型
+    private Map<String, Integer> compensatorAttAndTypeMap = ReadConfigFile.getAttAndTypeMap("compensator");
+    private Map<String, String> compensatorNameAndIdMap = selectCompensatorNameAndIdMap();
 
     static {
         m_nrdbAccess.setProxyIp("10.33.3.31");
     }
-    public static Map<String, String> selectAclineNameAndIdMap() {
-        Map<String, String> aclineNameAndIdMap = new HashMap<>();
-        String sql = " select id, name from SG_DEV_ACLINE_B ";
+
+    public static Map<String, String> selectCompensatorNameAndIdMap() {
+        Map<String, String> compensatorNameAndIdMap = new HashMap<>();
+        String sql = " select id, name from SG_DEV_SHUNTREACTOR_B ";
         try {
             List<Map<String, Object>> map = m_nrdbAccess.queryForList(sql, null);
             for (Map<String, Object> stringObjectMap : map) {
                 String id = stringObjectMap.get("id").toString();
                 String name = stringObjectMap.get("name").toString();
-                aclineNameAndIdMap.put(name, id);
+                compensatorNameAndIdMap.put(name, id);
             }
         } catch (NRDataAccessException e) {
-            System.out.println("aclineNameAndIdMap:" + e.getMessage());
+            System.out.println("compensatorNameAndIdMap:" + e.getMessage());
         }
-        return aclineNameAndIdMap;
+        return compensatorNameAndIdMap;
     }
 
     /**
-     * 根据uuid查询线路信息
+     * 根据uuid查询容抗器信息
+     *
      * @param uuid String
-     * @return Acline
+     * @return Compensator
      */
-    public Acline selectAclineInfoByUuid(String uuid) {
-        Acline acline = new Acline();
+    public Compensator selectCompensatorInfoByUuid(String uuid) {
+        Compensator compensator = new Compensator();
         if (uuid == null)
-            return acline;
+            return compensator;
 
         String sqlStr = "select b.id uuid, " +
                 "b.name name, " +
                 "b.expiry_date outservicedate, " +
                 "b.operate_date inservicedate, " +
                 "b.voltage_type voltagelevel, " +
-                "b.dispatch_org_id dispatcheruuid, " +
-                "b.start_st_id frombusnameuuid, " +
-                "b.end_st_id  tobusnameuuid, " +
-                "b.running_state servicestatus, " +
-                "b.length design_length, " +
-                "b.zj_sfsjllx iszonelink, " +
-                "p.imaxshort_10 current_emergency_10, " +
-                "p.imaxshort_20 current_emergency_20, " +
-                "p.imaxshort_30 current_emergency_30, " +
-                "p.imaxshort_40 current_emergency_40, " +
-                "p.imaxlong_10 current_rated_10, " +
-                "p.imaxlong_20 current_rated_20, " +
-                "p.imaxlong_30 current_rated_30, " +
-                "p.imaxlong_40 current_rated_40, " +
-                "p.zj_zxdn_pu design_bch, " +
-                "p.zj_lxdn_pu design_bch0, " +
-                "p.zj_zxdz_pu design_r, " +
-                "p.zj_lxdz_pu design_ro, " +
-                "p.zj_zxdk_pu design_x," +
-                "p.zj_lxdk_pu design_x0 " +
-                "from SG_DEV_ACLINE_B b, SG_DEV_ACLINE_P p " +
-                "where b.id = p.id " +
-                "and b.id = '" + uuid + "' ";
-        NRBeanRowMapper<Acline> org_acline = new NRBeanRowMapper<>(Acline.class);
+                "b.st_id substationuuid, " +
+                "b.running_state servicestatus " +
+                "b.capacity_rate design_rateds " +
+                "from SG_DEV_SHUNTREACTOR_B b " +
+                "where b.id = '" + uuid + "' ";
+        NRBeanRowMapper<Compensator> org_compensator = new NRBeanRowMapper<>(Compensator.class);
 
         try {
-            acline = m_nrdbAccess.queryForObject(sqlStr, null, org_acline);
+            compensator = m_nrdbAccess.queryForObject(sqlStr, null, org_compensator);
         } catch (NRDataAccessException e) {
             e.printStackTrace();
         }
-        return acline;
+        return compensator;
     }
 
     /**
-     * 通过工程id，查询线路信息
-     * 查询返回所有线路实体对象结构的集合
+     * 通过工程id，查询容抗器信息
+     * 查询返回所有容抗器实体对象结构的集合
      * 参数：需要所属工程ID，用户信息
      *
      * @param projectId
@@ -99,8 +81,8 @@ public class AclineManage {
      * @param userId
      * @return
      */
-    public List<Object> selectAclineList(String projectId, String userName, String userId) {
-        List<Object> aclineList = new ArrayList<>();
+    public List<Object> selectCompensatorList(String projectId, String userName, String userId) {
+        List<Object> compensatorList = new ArrayList<>();
         UserInfo userInfo = new UserInfo();
         userInfo.setUser_id("1");
         userInfo.setUser_name("test_user");
@@ -115,48 +97,30 @@ public class AclineManage {
                 "b.expiry_date outservicedate, " +
                 "b.operate_date inservicedate, " +
                 "b.voltage_type voltagelevel, " +
-                "b.dispatch_org_id dispatcheruuid, " +
-                "b.start_st_id frombusnameuuid, " +
-                "b.end_st_id  tobusnameuuid, " +
-                "b.running_state servicestatus, " +
-                "b.length design_length, " +
-                "b.zj_sfsjllx iszonelink, " +
-                "p.imaxshort_10 current_emergency_10, " +
-                "p.imaxshort_20 current_emergency_20, " +
-                "p.imaxshort_30 current_emergency_30, " +
-                "p.imaxshort_40 current_emergency_40, " +
-                "p.imaxlong_10 current_rated_10, " +
-                "p.imaxlong_20 current_rated_20, " +
-                "p.imaxlong_30 current_rated_30, " +
-                "p.imaxlong_40 current_rated_40, " +
-                "p.zj_zxdn_pu design_bch, " +
-                "p.zj_lxdn_pu design_bch0, " +
-                "p.zj_zxdz_pu design_r, " +
-                "p.zj_lxdz_pu design_ro, " +
-                "p.zj_zxdk_pu design_x," +
-                "p.zj_lxdk_pu design_x0 " +
-                "from SG_DEV_ACLINE_B b, SG_DEV_ACLINE_P p " +
-                "where b.id = p.id " );
-        NRBeanRowMapper<Acline> org_acline = new NRBeanRowMapper<>(Acline.class);
+                "b.st_id substationuuid, " +
+                "b.running_state servicestatus " +
+                "b.capacity_rate design_rateds " +
+                "from SG_DEV_SHUNTREACTOR_B b ");
+        NRBeanRowMapper<Compensator> org_compensator = new NRBeanRowMapper<>(Compensator.class);
 
         try {
             for (String sqlStr : sqlList) {
-                aclineList.addAll(m_nrdbAccess.query(sqlStr, null, org_acline));
+                compensatorList.addAll(m_nrdbAccess.query(sqlStr, null, org_compensator));
             }
         } catch (NRDataAccessException e) {
             e.printStackTrace();
         }
-        for (Object object : aclineList) {
-            Acline acline = (Acline) object;
-            System.out.println("==========" + "id:" + acline.getUuid() + "  name:" + acline.getName());
+        for (Object object : compensatorList) {
+            Compensator compensator = (Compensator) object;
+            System.out.println("==========" + "id:" + compensator.getUuid() + "  name:" + compensator.getName());
         }
-        return aclineList;
+        return compensatorList;
     }
 
 
     /**
-     * 通过工程id，查询线路信息
-     * 查询返回所有线路实体对象结构的集合
+     * 通过工程id，查询容抗器信息
+     * 查询返回所有容抗器实体对象结构的集合
      * 参数：需要所属工程ID，用户信息
      *
      * @param projectId
@@ -164,8 +128,8 @@ public class AclineManage {
      * @param userId
      * @return
      */
-    public List<Object> selectAclineListById(String projectId, String userName, String userId, List<String> keyIdList) {
-        List<Object> aclineList = new ArrayList<>();
+    public List<Object> selectCompensatorListById(String projectId, String userName, String userId, List<String> keyIdList) {
+        List<Object> compensatorList = new ArrayList<>();
         UserInfo userInfo = new UserInfo();
         userInfo.setUser_id("1");
         userInfo.setUser_name("test_user");
@@ -181,47 +145,29 @@ public class AclineManage {
                 "b.expiry_date outservicedate, " +
                 "b.operate_date inservicedate, " +
                 "b.voltage_type voltagelevel, " +
-                "b.dispatch_org_id dispatcheruuid, " +
-                "b.start_st_id frombusnameuuid, " +
-                "b.end_st_id  tobusnameuuid, " +
-                "b.running_state servicestatus, " +
-                "b.length design_length, " +
-                "b.zj_sfsjllx iszonelink, " +
-                "p.imaxshort_10 current_emergency_10, " +
-                "p.imaxshort_20 current_emergency_20, " +
-                "p.imaxshort_30 current_emergency_30, " +
-                "p.imaxshort_40 current_emergency_40, " +
-                "p.imaxlong_10 current_rated_10, " +
-                "p.imaxlong_20 current_rated_20, " +
-                "p.imaxlong_30 current_rated_30, " +
-                "p.imaxlong_40 current_rated_40, " +
-                "p.zj_zxdn_pu design_bch, " +
-                "p.zj_lxdn_pu design_bch0, " +
-                "p.zj_zxdz_pu design_r, " +
-                "p.zj_lxdz_pu design_ro, " +
-                "p.zj_zxdk_pu design_x," +
-                "p.zj_lxdk_pu design_x0 " +
-                "from SG_DEV_ACLINE_B b, SG_DEV_ACLINE_P p " +
-                "where b.id = p.id " +
+                "b.st_id substationuuid, " +
+                "b.running_state servicestatus " +
+                "b.capacity_rate design_rateds " +
+                "from SG_DEV_SHUNTREACTOR_B b " +
                 "and b.id in (" + idListStr + ") ");
-        NRBeanRowMapper<Acline> org_acline = new NRBeanRowMapper<>(Acline.class);
+        NRBeanRowMapper<Compensator> org_compensator = new NRBeanRowMapper<>(Compensator.class);
         try {
             for (String sqlStr : sqlList) {
-                aclineList.addAll(m_nrdbAccess.query(sqlStr, null, org_acline));
+                compensatorList.addAll(m_nrdbAccess.query(sqlStr, null, org_compensator));
             }
         } catch (NRDataAccessException e) {
             e.printStackTrace();
         }
-        for (Object object : aclineList) {
-            Acline acline = (Acline) object;
-            System.out.println("==========" + "id:" + acline.getUuid() + "  name:" + acline.getName());
+        for (Object object : compensatorList) {
+            Compensator compensator = (Compensator) object;
+            System.out.println("==========" + "id:" + compensator.getUuid() + "  name:" + compensator.getName());
         }
-        return aclineList;
+        return compensatorList;
     }
 
 
     /**
-     * 更新线路信息
+     * 更新容抗器信息
      * 参数：需要所属工程ID，用户信息, 设备更新的字段与对应值的键值对map，批量更新使用List
      *
      * @param projectId
@@ -230,7 +176,7 @@ public class AclineManage {
      * @param changNameAndValueMap
      * @return
      */
-    public List<Boolean> updateAcline(String projectId, String userName, String userId, String aclineId, Map<String, String> changNameAndValueMap) {
+    public List<Boolean> updateCompensator(String projectId, String userName, String userId, String compensatorId, Map<String, String> changNameAndValueMap) {
 
         List<Boolean> resList = new ArrayList<>();
         UserInfo userInfo = new UserInfo();
@@ -241,7 +187,7 @@ public class AclineManage {
         Map<String, List<RecordColumnInfo>> recordColumnInfoMap = new HashMap<>();
         RecordColumnInfo idColumnInfo = new RecordColumnInfo();
         idColumnInfo.setColumn_name("ID");
-        idColumnInfo.setColumn_value(aclineId);
+        idColumnInfo.setColumn_value(compensatorId);
         idColumnInfo.setIs_key(true);
         idColumnInfo.setColumn_type(DefineHeader.JDBC_DATATYPE_STRING);
 
@@ -249,7 +195,7 @@ public class AclineManage {
             String columnName = changNameAndValue.getKey();
             String columnValue = changNameAndValue.getValue();
             RecordColumnInfo columnInfo = new RecordColumnInfo();
-            Pair<String, String> tableAndColumName = aclineAttToDkyTableMap.get(columnName);
+            Pair<String, String> tableAndColumName = compensatorAttToDkyTableMap.get(columnName);
             String dkyTable = tableAndColumName.getKey();
             String dkyColumnName = tableAndColumName.getValue();
             columnInfo.setColumn_name(dkyColumnName);
@@ -265,7 +211,7 @@ public class AclineManage {
             //这里应该根据不同的列 进行值的转化 成调控云要求的数值
             columnInfo.setColumn_value(columnValue);
 
-            Integer type = aclineAttAndTypeMap.get(columnName);
+            Integer type = compensatorAttAndTypeMap.get(columnName);
             columnInfo.setColumn_type(type);
 
             if (!recordColumnInfoMap.containsKey(dkyTable)) {
@@ -317,7 +263,7 @@ public class AclineManage {
     }
 
 
-    public List<Boolean> insertAcline(String projectId, String userName, String userId, Acline acline) {
+    public List<Boolean> insertCompensator(String projectId, String userName, String userId, Compensator compensator) {
 
         UserInfo userInfo = new UserInfo();
         userInfo.setUser_id("test_user");
@@ -327,22 +273,22 @@ public class AclineManage {
         List<Boolean> resList = new ArrayList<>();
         Map<String, List<RecordColumnInfo>> recordColumnInfoMap = new HashMap<>();
 
-        // 线路重名 直接返回空的list
-        if (aclineAttToDkyTableMap == null || aclineAttAndTypeMap == null || aclineNameAndIdMap.containsKey(acline.getName()))
+        // 容抗器重名 直接返回空的list
+        if (compensatorAttToDkyTableMap == null || compensatorAttAndTypeMap == null || compensatorNameAndIdMap.containsKey(compensator.getName()))
             return resList;
 
-        for (Field field : acline.getClass().getDeclaredFields()) {
+        for (Field field : compensator.getClass().getDeclaredFields()) {
             field.setAccessible(true);
             try {
                 String fieldName = field.toString();
                 fieldName = fieldName.substring(fieldName.lastIndexOf('.') + 1);
-                String fieldValue = (String) field.get(acline);
+                String fieldValue = (String) field.get(compensator);
                 if (fieldValue == null)
                     continue;
-                if (!aclineAttToDkyTableMap.containsKey(fieldName) || !aclineAttAndTypeMap.containsKey(fieldName)) {
+                if (!compensatorAttToDkyTableMap.containsKey(fieldName) || !compensatorAttAndTypeMap.containsKey(fieldName)) {
                     continue;
                 }
-                Pair<String, String> pair = aclineAttToDkyTableMap.get(fieldName);
+                Pair<String, String> pair = compensatorAttToDkyTableMap.get(fieldName);
                 //  Pair<  调控云表名  表中属性 >
                 if (pair == null)
                     continue;
@@ -356,7 +302,7 @@ public class AclineManage {
                 }
                 String dkyTableName = pair.getKey();
                 String dkyColumnName = pair.getValue();
-                int dkyColumnType = aclineAttAndTypeMap.get(fieldName);
+                int dkyColumnType = compensatorAttAndTypeMap.get(fieldName);
                 RecordColumnInfo columnInfo = new RecordColumnInfo();
                 columnInfo.setColumn_name(dkyColumnName);
                 columnInfo.setColumn_value(fieldValue);
@@ -379,73 +325,38 @@ public class AclineManage {
         stampColumnInfo.setColumn_value(BasicManage.getSTAMP("330881", "1"));
         stampColumnInfo.setColumn_type(DefineHeader.JDBC_DATATYPE_STRING);
 
-        List<RecordColumnInfo> aclineRecordList_b = recordColumnInfoMap.get("SG_DEV_ACLINE_B");
-        aclineRecordList_b.add(stampColumnInfo);
+        List<RecordColumnInfo> compensatorRecordList_b = recordColumnInfoMap.get("SG_DEV_SHUNTREACTOR_B");
+        compensatorRecordList_b.add(stampColumnInfo);
         RecordInfo recordInfo_b = new RecordInfo();
-        recordInfo_b.setRecordColumnInfo(aclineRecordList_b);
+        recordInfo_b.setRecordColumnInfo(compensatorRecordList_b);
         recordInfo_b.setRegion_id("330000");
         List<RecordInfo> recordInfoList_b = new ArrayList<>();
         recordInfoList_b.add(recordInfo_b);
 
-        String insertAclineId = "";
+        String insertCompensatorId = "";
         // 设置所属工程信息
         m_nrdbAccess.clearProjectId();
         m_nrdbAccess.setProjectId(DefineHeader.FUTURE_PROJECT_ID, projectId, userInfo);
         try {
-            result = m_nrdbAccess.InsertRecord("SG_DEV_ACLINE_B", recordInfoList_b);
+            result = m_nrdbAccess.InsertRecord("SG_DEV_SHUNTREACTOR_B", recordInfoList_b);
             for (RecordModifyResult re : result) {
                 System.out.println("===================" + re.getErr_msg() + " " + re.isIs_success());
                 List<String> rt = re.getKeyColumns();
                 for (int j = 0; j < rt.size(); ++j) {
                     System.out.println("re.getKeyColumns():" + j + " " + rt.get(j));
-                    insertAclineId = rt.get(j);
-                    aclineNameAndIdMap.put(acline.getName(), insertAclineId);
+                    insertCompensatorId = rt.get(j);
+                    compensatorNameAndIdMap.put(compensator.getName(), insertCompensatorId);
                 }
             }
         } catch (NRDataAccessException e) {
             e.printStackTrace();
         }
 
-        // 更新P表
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        if (!insertAclineId.isEmpty()) {
-            RecordColumnInfo columnInfo = new RecordColumnInfo();
-            columnInfo.setColumn_name("ID");
-            columnInfo.setIs_key(true);
-            columnInfo.setColumn_value(insertAclineId);
-            columnInfo.setColumn_type(DefineHeader.JDBC_DATATYPE_STRING);
-
-            List<RecordColumnInfo> aclineRecordList_p = recordColumnInfoMap.get("SG_DEV_ACLINE_P");
-            aclineRecordList_p.add(stampColumnInfo);
-            aclineRecordList_p.add(columnInfo);
-
-            RecordInfo recordInfo_m = new RecordInfo();
-            recordInfo_m.setRecordColumnInfo(aclineRecordList_p);
-            recordInfo_m.setRegion_id("330000");
-            List<RecordInfo> recordInfoList_m = new ArrayList<>();
-            recordInfoList_m.add(recordInfo_m);
-            // 设置所属工程信息
-            m_nrdbAccess.clearProjectId();
-            m_nrdbAccess.setProjectId(DefineHeader.FUTURE_PROJECT_ID, projectId, userInfo);
-            try {
-                result = m_nrdbAccess.UpdateRecord("SG_DEV_ACLINE_P", recordInfoList_m);
-                for (RecordModifyResult re : result) {
-                    resList.add(re.isIs_success());
-                    System.out.println("===================" + re.getErr_msg() + " " + re.isIs_success());
-                }
-            } catch (NRDataAccessException e) {
-                e.printStackTrace();
-            }
-        }
         return resList;
     }
 
 
-    public List<Boolean> deleteAcline(String projectId, String userName, String userId, String aclineId) {
+    public List<Boolean> deleteCompensator(String projectId, String userName, String userId, String compensatorId) {
         UserInfo userInfo = new UserInfo();
         userInfo.setUser_id("1");
         userInfo.setUser_name("test_user");
@@ -456,7 +367,7 @@ public class AclineManage {
         List<RecordColumnInfo> recordColumnInfo = new ArrayList<>();
         RecordColumnInfo columnInfo = new RecordColumnInfo();
         columnInfo.setColumn_name("ID");
-        columnInfo.setColumn_value(aclineId);
+        columnInfo.setColumn_value(compensatorId);
         columnInfo.setIs_key(true);
         columnInfo.setColumn_type(DefineHeader.JDBC_DATATYPE_STRING);
         recordColumnInfo.add(columnInfo);
@@ -469,7 +380,7 @@ public class AclineManage {
         m_nrdbAccess.setProjectId(DefineHeader.FUTURE_PROJECT_ID, projectId, userInfo);
         List<RecordModifyResult> result;
         try {
-            result = m_nrdbAccess.DeleteRecord("SG_DEV_ACLINE_B", recordInfoList);
+            result = m_nrdbAccess.DeleteRecord("SG_DEV_SHUNTREACTOR_B", recordInfoList);
             for (RecordModifyResult re : result) {
                 resList.add(re.isIs_success());
             }
@@ -478,8 +389,6 @@ public class AclineManage {
         }
         return resList;
     }
-
-
 
 
 }

@@ -1,8 +1,11 @@
-package com.wrpower.pjc_project.domain;
+package com.wrpower.pjc_project.entity;
+
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 /**
  * 线路类
  */
+//@EntityScan
 public class Acline {
     private String bpaid;
     private String branchnum;

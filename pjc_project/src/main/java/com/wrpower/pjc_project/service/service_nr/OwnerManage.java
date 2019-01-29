@@ -1,16 +1,13 @@
-package com.wrpower.pjc_project.service;
+package com.wrpower.pjc_project.service.service_nr;
 
-import com.nari.cloud.dbaccess.impl.NRDBAccessImpl;
 import com.nari.cloud.dbaccess.tool.NRDataAccessException;
-import com.nari.cloud.dbaccess.wrapper.NRDBAccess;
 
 import java.util.*;
 
 public class OwnerManage {
 
-    private static NRDBAccess nrdbAccess = new NRDBAccessImpl();
     static {
-        nrdbAccess.setProxyIp("10.33.3.31");
+        NRDBAccessManage.NRDBAccess().setProxyIp("10.33.3.31");
     }
     public OwnerManage() {
     }
@@ -21,7 +18,7 @@ public class OwnerManage {
         Map<String,String> ownerMap = new HashMap<>();
         String sql="select id, name_abbreviation from SG_ORG_DCC_B where parent_id= '0021330000' and org_type = '1004'";
         try {
-            List<Map<String, Object>> map = nrdbAccess.queryForList(sql,null);
+            List<Map<String, Object>> map = NRDBAccessManage.NRDBAccess().queryForList(sql,null);
             for (Map<String, Object> stringObjectMap : map) {
                 String idStr = stringObjectMap.get("id").toString();
                 idStr = idStr.substring(idStr.length() - 6, idStr.length() - 1);//取后6位
