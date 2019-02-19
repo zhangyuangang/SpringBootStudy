@@ -63,18 +63,21 @@
             <groupId>com.wrpower</groupId>
             <artifactId>FIDBAccessV2For1.6</artifactId>
             <version>1.0</version>
+            <systemPath>D:/WORK_SPACE/SpringBoot/pjc_project/jar/FIDBAccessModel.jar</systemPath>
         </dependency>
 
         <dependency>
             <groupId>com.wrpower</groupId>
             <artifactId>NDBAccessModel</artifactId>
             <version>1.0</version>
+            <systemPath>D:/WORK_SPACE/SpringBoot/pjc_project/jar/NDBAccessModel.jar</systemPath>
         </dependency>
 
         <dependency>
             <groupId>com.wrpower</groupId>
             <artifactId>NDBAccessV2For1.6ForFuture</artifactId>
             <version>1.0</version>
+            <systemPath>D:/WORK_SPACE/SpringBoot/pjc_project/jar/NDBAccessV2For1.6.jar</systemPath>
         </dependency>
 
         <!--这里是导入的达梦数据库jdbc和hibernate4.0 的jar包-->
